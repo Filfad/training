@@ -1,7 +1,7 @@
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import settings
-from handlers import (greet_user, guess_number, send_cat_picture, send_dog_picture, user_coordinates, talk_to_me)
+from handlers import (greet_user, guess_number, send_cat_picture, send_dog_picture, user_coordinates, talk_to_me, check_user_photo)
 logging.basicConfig(filename='bot.log', level=logging.INFO) #запись в реестр 
 import settings
 
@@ -14,6 +14,7 @@ def main():
     dp.add_handler(CommandHandler("dog",send_dog_picture)) #добавляем CommandHandler команду cat, когда пишем в телеграме команду cat telegram знает что нам нужно отослать функцию send_cat_picture по отправке картинок котиков
     dp.add_handler(MessageHandler(Filters.regex('^(Показать киску)$'),send_cat_picture)) # реагируем только на эту фразу '^(Прислать котика)$'  ^-начало фразы $ - конец фразы
     dp.add_handler(MessageHandler(Filters.regex('^(Показать песеля)$'),send_dog_picture)) # реагируем только на эту фразу '^(Прислать котика)$'  ^-начало фразы $ - конец фразы
+    dp.add_handler(MessageHandler(Filters.photo, check_user_photo)) # MessageHandler проверяющий фото от пользователя
     dp.add_handler(MessageHandler(Filters.location, user_coordinates))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
 

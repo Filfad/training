@@ -9,7 +9,7 @@
 5. Впишем в `settings.py` переменные:
 ```
 API_KEY = "API-ключ бота"
-USER_EMOJI = [':smiley_cat:', ':smiling_imp:', ':panda_face:', ':dog:'] #списко случайных смайлов для вызова 
+USER_EMOJI = [':smiley_cat:', ':smiling_imp:', ':panda_face:', ':dog:']
 ```
 6. Запустить бота командоай `python bot.py`
     

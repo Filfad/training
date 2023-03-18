@@ -1,6 +1,7 @@
 from glob import glob #импорты записываем в алфавитном порядке, что бы проще было искать
+import os
 from random import choice
-from utils import (get_smile, play_random_numbers, main_keyboard) #импортируем наши функции из utils 
+from utils import (get_smile, play_random_numbers, main_keyboard, has_object_on_image) #импортируем наши функции из utils 
 
 def greet_user(update, context): #функция приветсвтия пользователя
     print("Вызван \start") #отображает текст в консоле
@@ -49,3 +50,18 @@ def user_coordinates(update,context): #функция отправки коор�
         f"Вашии координаты {coords}{context.user_data['emoji']}!",#отправляем координаты
         reply_markup = main_keyboard #отправляем клавиатуру
     )
+
+def check_user_photo(update, context): #функция по проверке фото 
+    update.message.reply_text("Обрабатываем")
+    os.makedirs("downloads", exist_ok=True ) #импортирируем библиотек os для работы с файлами ей даем команду makedirs - создать новую папку, назвать ее downloads, exist_ok=True - если такая папка уже есть, то не будет создавать новую
+    photo_file = context.bot.getFile(update.message.photo[-1].file_id) #берем изображение -1 в наилучшем качестве, и берем его file_id
+    file_name = os.path.join("downloads", f"{update.message.photo[-1].file_id}.jpg") #прописываем название файла, лучше делать через os.path.join, будет /\ использоваться на любой ОС
+    photo_file.download(file_name)#скачаем файл по адресу из file_name
+    update.message.reply_text("Файл сохранен") #сообщения для пользователя телеграм
+    if has_object_on_image(file_name,"cat"):
+        update.message.reply_text("Обнаружена киска, сохраняю в библиотеку")#сообщения для пользователя телеграм
+        new_file_name = os.path.join("images", f"cat_{photo_file.file_id}.jpg")
+        os.rename(file_name, new_file_name)
+    else:
+        os.remove(file_name)
+        update.message.reply_text("Тревога, киска не обнаружена!")
