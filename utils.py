@@ -26,8 +26,8 @@ def play_random_numbers(user_number): #функция создает рандо�
 
 def main_keyboard(): #добавляем переменную  my_keyboard и ей присваиваем библиотку ReplyKeyboardMarkup передаем функционал handlerhelper pussy
     return ReplyKeyboardMarkup([
-        ["Показать киску", KeyboardButton("Мое расположение", request_location = True)], # передает расположение пользователя с помощью, KeyboardButton("мое расположение", request_location = True)
-        ["Показать песеля"]
+        ["Заполнить анкету", KeyboardButton("Мое расположение", request_location = True)], # добавили кнопку заполнить передает расположение пользователя с помощью, KeyboardButton("мое расположение", request_location = True)
+        ["Показать песеля", "Показать киску"]
                                 ])   
 def has_object_on_image(file_name, object_name): #ищем на картинке object name
     channel = ClarifaiChannel.get_grpc_channel()
@@ -38,7 +38,7 @@ def has_object_on_image(file_name, object_name): #ищем на картинке
         image = resources_pb2.Image(base64=file_data)
     
     request = service_pb2.PostModelOutputsRequest(
-        model_id='aaa03c23b3724a16a56b629203edc62c',
+        model_id=settings.CLARIFAI_MODEL_ID,
         inputs=[
             resources_pb2.Input(data=resources_pb2.Data(image=image))
         ])
@@ -59,27 +59,3 @@ if __name__ == "__main__":
     print(has_object_on_image('images/cat1.jpg', "dog"))
     print(has_object_on_image('images/dog1.jpeg', "dog"))
     print(has_object_on_image('images/dogprichini.jpg', "dog"))
-
-"""
-from clarifai_grpc.grpc.api import service_pb2, resources_pb2
-from clarifai_grpc.grpc.api.status import status_code_pb2# This is how you authenticate.
-metadata = (('authorization', 'Key #{{YOUR_CLARIFAI_API_KEY}}'),)
-with open("{YOUR_IMAGE_FILE_LOCATION}", "rb") as f:
-    file_bytes = f.read()
-    
-request = service_pb2.PostModelOutputsRequest(
-    model_id='aaa03c23b3724a16a56b629203edc62c',
-    inputs=[
-        resources_pb2.Input(
-            data=resources_pb2.Data(
-                image=resources_pb2.Image(
-                    base64=file_bytes
-                )
-            )
-        )      
-    ])
-response = stub.PostModelOutputs(request, metadata=metadata)
-if response.status.code != status_code_pb2.SUCCESS:
-    raise Exception("Request failed, status code: " + str(response.status.code))for concept in response.outputs[0].data.concepts:
-print('%12s: %.2f' % (concept.name, concept.value))
-"""
