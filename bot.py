@@ -10,7 +10,6 @@ logging.basicConfig(filename='bot.log', level=logging.INFO) #запись в р�
 
 def main():
     mybot =  Updater(settings.API_KEY, use_context=True) 
-    
     dp = mybot.dispatcher
 
     anketa = ConversationHandler( #добавляем ConversationHandler для анкеты

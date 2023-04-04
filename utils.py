@@ -2,17 +2,10 @@
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
 from clarifai_grpc.grpc.api.status import status_pb2, status_code_pb2 # This is how you authenticate
-from emoji import emojize
-from random import choice, randint #random 
+
+from random import randint #random 
 from telegram import ReplyKeyboardMarkup, KeyboardButton #клавиатура для бота, специальная кнопка для геолокации 
 import settings
-
-
-def get_smile(user_data):
-    if "emoji" not in user_data: #если смайлика нет, то мы его присваиваем
-        smile = choice(settings.USER_EMOJI) #переменная smile берет случайное значение из списка USER_EMOJI находящегося в файле settings
-        return emojize(smile, language ='alias')#emojize переводит текст смайлика в смайлик,use_aliases = True использовать формат смайлика ":shit:"
-    return user_data["emoji"] #возвращаем смайл
 
 def play_random_numbers(user_number): #функция создает рандомное число и сравнивает его с пользовательским
     bot_number = randint(user_number - 10,user_number + 10)#генерируется случайное число -+10 от числа пользователя
