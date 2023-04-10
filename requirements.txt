@@ -21,3 +21,4 @@ tornado==6.2
 emoji==2.2.0
 dnspython==2.3.0 
 pymongo==4.3.3
+pytz==2023.3
